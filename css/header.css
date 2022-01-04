@@ -106,6 +106,10 @@
     top: 0;
   }
 
+  .header::before {
+    border-bottom: 1px solid black;
+  }
+
   .header__top {
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;

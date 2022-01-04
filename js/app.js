@@ -171,19 +171,29 @@ if (anim_items.length > 0) {
   }, 300);
 }
 
-window.onload = ()=>{
-   const headerBurger = document.querySelector('.header__burger');
-   const headerMenu = document.querySelector('.header__main-menu');
+window.onload = () => {
+  const headerBurger = document.querySelector(".header__burger");
+  const headerMenu = document.querySelector(".header__main-menu");
+  if (headerBurger) {
+    headerBurger.addEventListener("click", (event) => {
+      headerMenu.classList.toggle("active");
+      document.body.classList.toggle("_isLocked");
+      headerBurger.classList.toggle("active");
+    });
+  }
 
-   headerBurger.addEventListener('click',(event)=>{
-      
-      headerMenu.classList.toggle('active');
-      document.body.classList.toggle('_isLocked');
-      event.target.classList.toggle('active');
-   });
+  const toggleWorkerRole = document.querySelectorAll(".workers__mobile-toggle");
+  if (toggleWorkerRole.length > 0) {
+    for (const toggle of toggleWorkerRole) {
+      toggle.addEventListener("click", () => {
+        toggle.parentElement
+          .querySelector(".workers__worker-info")
+          .classList.toggle("active");
+      });
+    }
+  }
+};
 
-
-}
 //заготавка под свайпер и объявление и адаптация слайдеров ==============
 let sliders = document.querySelectorAll("._swiper");
 if (sliders.length > 0) {
@@ -224,46 +234,8 @@ if (sliders.length > 0) {
 
 function slide_Bind_content(params) {}
 //=============================================================
-
-let mainSlider = new Swiper(".mainslider__slider", {
-  //Отстутпы между слайдами
-  spaceBetween: 0,
-  //Слайды на пролисьывание (сколько будет листаться)
-  slidesPerGroup: 1,
-  //Сколько слайдов будет видно
-  slidesPerView: 1,
-  //Сколько слайдов будет в колонке походу
-  slidesPerColumn: 1,
-  // centeredSlides:true
-  speed: 900,
-  //Возможные варианты:flip slide cube coverflow fade
-  effect: "slide",
-  loop: true,
-  navigation: {
-    nextEl: ".mainslider__arrow.r",
-    prevEl: ".mainslider__arrow.l",
-  },
-  direction:'vertical',
-  
- // grabCursor: true,
-  keyboard: {
-    // Включаем управление клавиатурой
-    enabled: true,
-    //Только при поле зрения
-    onlyInViewport: true,
-    pageUpDown: true,
-  },
-  autoHeight: true,
-  breakpoints: {
-    320: {},
-    990: {},
-  },
-
-  observer: true,
-});
-
-
-let mainSlider2 = new Swiper(".slider", {
+if (document.querySelector(".mainslider__slider")) {
+  let mainSlider = new Swiper(".mainslider__slider", {
     //Отстутпы между слайдами
     spaceBetween: 0,
     //Слайды на пролисьывание (сколько будет листаться)
@@ -277,13 +249,13 @@ let mainSlider2 = new Swiper(".slider", {
     //Возможные варианты:flip slide cube coverflow fade
     effect: "slide",
     loop: true,
-    // navigation: {
-    //   nextEl: ".mainslider__arrow.r",
-    //   prevEl: ".mainslider__arrow.l",
-    // },
-    direction:'vertical',
-    
-   // grabCursor: true,
+    navigation: {
+      nextEl: ".mainslider__arrow.r",
+      prevEl: ".mainslider__arrow.l",
+    },
+    direction: "vertical",
+
+    // grabCursor: true,
     keyboard: {
       // Включаем управление клавиатурой
       enabled: true,
@@ -291,12 +263,22 @@ let mainSlider2 = new Swiper(".slider", {
       onlyInViewport: true,
       pageUpDown: true,
     },
-  
+    autoHeight: true,
     breakpoints: {
       320: {},
-      990: {},
+      780: {},
     },
-  
+
+    touchAngle: 180,
     observer: true,
   });
-  
+
+  if (document.documentElement.clientHeight < 600) {
+    mainSlider.on("slideChange", () => {
+      //    console.log(window.pageYOffset);
+      if (window.pageYOffset < 201) {
+        window.scrollBy(0, 50);
+      }
+    });
+  }
+}
