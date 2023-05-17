@@ -17,6 +17,7 @@
 
 .invitation-form > div:not(:last-child) {
   margin-bottom: 50px;
+  z-index: 1;
 }
 
 .invitation-form__row {
